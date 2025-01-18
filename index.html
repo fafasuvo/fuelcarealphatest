@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Care</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;500&family=Pacifico&display=swap');
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fdfdf6;
+            margin: 0;
+            color: #333;
+        }
+
+        #app {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            border: 2px solid #ffe5d9;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            z-index: 1000;
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 2px solid #ffe5d9;
+        }
+
+        .title {
+            font-family: 'Pacifico', cursive;
+            font-size: 40px;
+            margin: 0;
+            background: linear-gradient(90deg, #f4a261, #e76f51);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: #f4a261;
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            text-align: center;
+            color: #5a5a5a;
+            margin: 30px 0;
+        }
+
+        .menu {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 14px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            border: none;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .start-btn {
+            background-color: #f4a261;
+            color: white;
+        }
+
+        .start-btn:hover {
+            background-color: #e76f51;
+            transform: scale(1.05);
+        }
+
+        .quit-btn {
+            background-color: #e63946;
+            color: white;
+        }
+
+        .quit-btn:hover {
+            background-color: #9b2226;
+            transform: scale(1.05);
+        }
+
+        .panel {
+            display: none;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #fff9f0;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #f4a261;
+            box-shadow: 0 0 5px rgba(244, 162, 97, 0.5);
+        }
+
+        .result {
+            font-size: 18px;
+            color: #2a9d8f;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div class="sticky-header">
+        <div class="title">Fuel Care</div>
+    </div>
+    <div class="subtitle">Optimize your vehicle's fuel efficiency</div>
+    <div class="menu">
+        <button class="start-btn" onclick="showPanel('kmCalculator')">Kilometers Per Liter Calculator</button>
+        <button class="start-btn" onclick="showPanel('routeCalculator')">Route Fuel Consumption Calculator</button>
+        <button class="quit-btn" onclick="quitApp()">Quit</button>
+    </div>
+    
+    <div id="kmCalculator" class="panel">
+        <h3>Kilometers Per Liter Calculator</h3>
+        <div class="input-group">
+            <label for="kmDriven">Kilometers Driven:</label>
+            <input type="number" id="kmDriven">
+        </div>
+        <div class="input-group">
+            <label for="litersUsed">Liters Used:</label>
+            <input type="number" id="litersUsed">
+        </div>
+        <div class="input-group">
+            <label for="carType">Select Car:</label>
+            <select id="carType">
+                <option value="civic">Honda Civic</option>
+                <option value="everest">Ford Everest</option>
+                <option value="monterosport">Mitsubishi Montero Sport</option>
+            </select>
+        </div>
+        <button onclick="calculateKmPerLiter()">Calculate</button>
+        <div id="kmResult" class="result"></div>
+    </div>
+
+    <div id="routeCalculator" class="panel">
+        <h3>Route Fuel Consumption Calculator</h3>
+        <div class="input-group">
+            <label>Starting Location: MMCL</label>
+        </div>
+        <div class="input-group">
+            <label for="destination">Select Destination:</label>
+            <select id="destination">
+                <option value="21">San Pedro (21 km)</option>
+                <option value="11">Sta Rosa (11 km)</option>
+                <option value="9.3">Cabuyao (9.3 km)</option>
+                <option value="12">Carmona (12 km)</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="routeCarType">Select Car:</label>
+            <select id="routeCarType">
+                <option value="civic">Honda Civic</option>
+                <option value="everest">Ford Everest</option>
+                <option value="monterosport">Mitsubishi Montero Sport</option>
+            </select>
+        </div>
+        <button onclick="calculateRouteFuelConsumption()">Calculate</button>
+        <div id="routeResult" class="result"></div>
+    </div>
+</div>
+
+<script>
+    function showPanel(panelId) {
+        document.querySelectorAll('.panel').forEach(panel => panel.style.display = 'none');
+        document.getElementById(panelId).style.display = 'block';
+    }
+
+    function calculateKmPerLiter() {
+        const kmDriven = parseFloat(document.getElementById('kmDriven').value);
+        const litersUsed = parseFloat(document.getElementById('litersUsed').value);
+        const carType = document.getElementById('carType').value;
+
+        if (isNaN(kmDriven) || isNaN(litersUsed) || litersUsed <= 0) {
+            document.getElementById('kmResult').textContent = "Please enter valid numbers.";
+            return;
+        }
+
+        const carNames = {
+            civic: 'Honda Civic',
+            everest: 'Ford Everest',
+            monterosport: 'Mitsubishi Montero Sport'
+        };
+
+        let kmPerLiter = kmDriven / litersUsed;
+        document.getElementById('kmResult').textContent = `Kilometers per Liter for ${carNames[carType]}: ${kmPerLiter.toFixed(2)}`;
+    }
+
+    function calculateRouteFuelConsumption() {
+        const destinationDistance = parseFloat(document.getElementById('destination').value);
+        const carType = document.getElementById('routeCarType').value;
+
+        const consumptionRates = {
+            civic: 14,
+            everest: 9,
+            monterosport: 10
+        };
+
+        const carNames = {
+            civic: 'Honda Civic',
+            everest: 'Ford Everest',
+            monterosport: 'Mitsubishi Montero Sport'
+        };
+
+        let estimatedFuel = Math.ceil(destinationDistance / consumptionRates[carType]);
+        document.getElementById('routeResult').textContent = `Estimated Fuel Consumption for ${carNames[carType]}: ~${estimatedFuel} liters`;
+    }
+
+    function quitApp() {
+        alert("Thank you for using Fuel Care!");
+    }
+</script>
+
+</body>
+</html>
