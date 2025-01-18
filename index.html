@@ -158,7 +158,7 @@
             <input type="number" id="kmDriven">
         </div>
         <div class="input-group">
-            <label for="litersUsed">Liters Used:</label>
+            <label for="litersUsed">Rough Estimate Liters Used:</label>
             <input type="number" id="litersUsed">
         </div>
         <div class="input-group">
@@ -243,7 +243,7 @@
         };
 
         let estimatedFuel = Math.ceil(destinationDistance / consumptionRates[carType]);
-        document.getElementById('routeResult').textContent = `Estimated Fuel Consumption for ${carNames[carType]}: ~${estimatedFuel} liters`;
+        document.getElementById('routeResult').textContent = `Estimated Fuel Consumption for ${carNames[carType]}: ~${estimatedFuel} liter/liters`;
     }
 
     function quitApp() {
