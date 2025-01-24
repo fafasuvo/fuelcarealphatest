@@ -136,6 +136,17 @@
             color: #2a9d8f;
             margin-top: 20px;
         }
+
+        .instructions {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #555;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -150,7 +161,7 @@
         <button class="start-btn" onclick="showPanel('routeCalculator')">Route Fuel Consumption Calculator</button>
         <button class="quit-btn" onclick="quitApp()">Quit</button>
     </div>
-    
+
     <div id="kmCalculator" class="panel">
         <h3>Kilometers Per Liter Calculator</h3>
         <div class="input-group">
@@ -164,9 +175,10 @@
         <div class="input-group">
             <label for="carType">Select Car:</label>
             <select id="carType">
-                <option value="civic">Honda Civic</option>
                 <option value="everest">Ford Everest</option>
                 <option value="monterosport">Mitsubishi Montero Sport</option>
+                <option value="mirage">Mitsubishi Mirage</option>
+                <option value="yaris">Toyota Yaris</option>
             </select>
         </div>
         <button onclick="calculateKmPerLiter()">Calculate</button>
@@ -190,13 +202,25 @@
         <div class="input-group">
             <label for="routeCarType">Select Car:</label>
             <select id="routeCarType">
-                <option value="civic">Honda Civic</option>
                 <option value="everest">Ford Everest</option>
                 <option value="monterosport">Mitsubishi Montero Sport</option>
+                <option value="mirage">Mitsubishi Mirage</option>
+                <option value="yaris">Toyota Yaris</option>
             </select>
         </div>
         <button onclick="calculateRouteFuelConsumption()">Calculate</button>
         <div id="routeResult" class="result"></div>
+    </div>
+
+    <div class="instructions">
+        <h3>How to Use</h3>
+        <ul>
+            <li><b>Select a Calculator:</b> Choose either the "Kilometers Per Liter Calculator" or "Route Fuel Consumption Calculator" from the menu.</li>
+            <li><b>Enter Data:</b> Input the required values, such as kilometers driven, liters used, or destination distance.</li>
+            <li><b>Select Your Car:</b> Pick your car model from the dropdown menu to ensure accurate calculations.</li>
+            <li><b>Calculate:</b> Click the "Calculate" button to see the results.</li>
+            <li><b>Quit:</b> Use the "Quit" button to exit the program.</li>
+        </ul>
     </div>
 </div>
 
@@ -217,9 +241,17 @@
         }
 
         const carNames = {
-            civic: 'Honda Civic',
             everest: 'Ford Everest',
-            monterosport: 'Mitsubishi Montero Sport'
+            monterosport: 'Mitsubishi Montero Sport',
+            mirage: 'Mitsubishi Mirage',
+            yaris: 'Toyota Yaris'
+        };
+
+        const consumptionRates = {
+            mirage: 22.7,
+            yaris: 35,
+            everest: 9,
+            monterosport: 10
         };
 
         let kmPerLiter = kmDriven / litersUsed;
@@ -231,19 +263,21 @@
         const carType = document.getElementById('routeCarType').value;
 
         const consumptionRates = {
-            civic: 14,
+            mirage: 22.7,
+            yaris: 35,
             everest: 9,
             monterosport: 10
         };
 
         const carNames = {
-            civic: 'Honda Civic',
             everest: 'Ford Everest',
-            monterosport: 'Mitsubishi Montero Sport'
+            monterosport: 'Mitsubishi Montero Sport',
+            mirage: 'Mitsubishi Mirage',
+            yaris: 'Toyota Yaris'
         };
 
         let estimatedFuel = Math.ceil(destinationDistance / consumptionRates[carType]);
-        document.getElementById('routeResult').textContent = `Roughly Estimated Fuel Consumption for ${carNames[carType]}: ~${estimatedFuel} liter/liters`;
+        document.getElementById('routeResult').textContent = `Estimated Fuel Consumption for ${carNames[carType]}: ~${estimatedFuel} liters`;
     }
 
     function quitApp() {
